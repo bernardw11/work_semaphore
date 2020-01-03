@@ -29,7 +29,7 @@ void state_errors(char * x){
   }
 }
 
-int main(int argc, char * argv[]){
+int main(int argc, char *argv[]){
   int shm, sem, fd;
   union semun su;
   struct sembuf sb;
@@ -38,7 +38,7 @@ int main(int argc, char * argv[]){
   sb.sem_op = -1;
 
   char flag [4];
-  strcpy(flag, argv[1])
+  strcpy(flag, argv[1]);
   //creating
   if (strcmp(flag, "-c") == 0){
     //creating the semaphore
