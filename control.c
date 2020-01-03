@@ -80,16 +80,29 @@ int main(int argc, char * arvg[]){
     }
     printf("%s\n", buff);
     close(fd);
-
+    //removing the shared memory
     shmctl(shm, IPC_RMID, 0);
-    state_errors("removing shared memory");
+    state_errors("removing the shared memory");
+    printf("shared memory removed\n");
+    //removing semaphore
+    semctl(sem, IPC_RMID, 0);
+    state_errors("removing the semaphore");
+    printf("semaphore removed\n");
   }
+  //viewing
   else if (strcmp(flag, "-v") == 0){
-
+    fd = open("telephone.txt", O_RDONLY);
+    state_errors("opening the file");
+    char buff[SIZE];
+    buff[0] = '\0';
+    read(fd, buff, SIZE);
+    if (strlen(buff) != 0) {
+      *(strrchr(buff, '\n') + 1) = '\0';
+    }
+    printf("The story so far:\n");
+    printf("%s\n", buff);
+    close(fd);
   }
-
-
-
   else{
     printf("No flag.\n");
     return 0;
