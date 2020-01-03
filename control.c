@@ -42,9 +42,9 @@ int main(int argc, char *argv[]){
   //creating
   if (strcmp(flag, "-c") == 0){
     //creating the semaphore
-    sem = semget(KEY, 1, IPC_CREATE | 0644);
+    sem = semget(KEY, 1, IPC_CREAT | 0644);
     state_errors("making the semaphore");
-    printf("semaphore created\n")
+    printf("semaphore created\n");
     semctl(semd, 0, SETVAL, su);
     //creating the shared memory
     shm = shmget(KEY, SIZE, IPC_CREAT | 0644);
