@@ -22,11 +22,52 @@ union semun {
                               (Linux-specific) */
 };
 
-void standard_errors(char * x){
+void state_errors(char * x){
   if (errno){
     printf("Error %s: %d - %s\n", x, errno, strerror(errno));
     errno = 0;
   }
 }
 
-int main(int argc, char * arvg[])
+int main(int argc, char * arvg[]){
+  int shm, sem, fd;
+  union semun su;
+  struct sembuf sb;
+  su.val = 1;
+  sb.sem_num = 0;
+  sb.sem_op = -1;
+
+  char flag [4];
+  strcpy(flag, argv[1])
+  //creating
+  if (strcmp(flag, "-c") == 0){
+    //creating the semaphore
+    sem = semget(KEY, 1, IPC_CREATE | 0644);
+    state_errors("making the semaphore");
+    printf("semaphore created\n")
+    semctl(semd, 0, SETVAL, su);
+    //creating the shared memory
+    shm = shmget(KEY, SIZE, IPC_CREAT | 0644);
+    state_errors("making the shared memory");
+    printf("shared memory created\n");
+    //open the text file
+    fd = open("telephone.txt", O_CREAT | O_TRUNC | O_RDWR, 0644);
+    state_errors("opening the file");
+    close(fd);
+    printf("file created\n");
+  }
+  //removing
+  else if (strcmp(flag, "-r") == 0){
+
+  }
+  else if (strcmp(flag, "-v") == 0){
+
+  }
+
+
+
+  else{
+    printf("No flag.\n");
+    return 0;
+  }
+}
