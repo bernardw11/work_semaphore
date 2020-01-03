@@ -36,11 +36,11 @@ int main(){
   printf("trying to get in\n");
   semop(sem, &sb, 1);
   state_errors("getting semaphore");
-  printf("Last addition:\n%s\n", mem);
+  printf("Last addition: %s\n", mem);
   //opening the text file
   fd = open("telephone.txt", O_WRONLY | O_APPEND);
   state_errors("opening the file");
-  printf("Your addition:\n");
+  printf("Your addition: ");
   char buff[SIZE];
   fgets(mem, SIZE, stdin);
   *strchr(mem, '\n') = 0;
