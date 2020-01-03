@@ -29,7 +29,7 @@ void state_errors(char * x){
   }
 }
 
-int main(int argc, char * arvg[]){
+int main(int argc, char * argv[]){
   int shm, sem, fd;
   union semun su;
   struct sembuf sb;
