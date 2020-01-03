@@ -24,33 +24,34 @@ void state_errors(char * x){
 int main(){
   int shm, sem, fd;
   shm = shmget(KEY, SIZE, 0);
-  state_errors("accessing shared memory");
+  state_errors("accessing the shared memory");
   char * mem;
   mem = shmat(shm, 0, 0);
-  state_errors("attaching shared memory");
+  state_errors("attaching the shared memory");
   sem = semget(KEY, 1, 0);
-  state_errors("getting semaphore");
+  state_errors("getting the semaphore");
   struct sembuf sb;
   sb.sem_num = 0;
   sb.sem_op = -1;
-  printf("getting in... (don't type until \"Your addition\" appears)\n");
+  printf("trying to get in\n");
   semop(sem, &sb, 1);
   state_errors("getting semaphore");
   printf("Last addition:\n%s\n", mem);
+  //opening the text file
+  fd = open("telephone.txt", O_WRONLY | O_APPEND);
+  state_errors("opening the file");
   printf("Your addition:\n");
-  char text[SIZE];
+  char buff[SIZE];
   fgets(mem, SIZE, stdin);
   *strchr(mem, '\n') = 0;
-  strcpy(text, mem);
-  fd = open("story", O_WRONLY | O_APPEND);
-  state_errors("opening file");
-  write(fd, text, strlen(text));
+  strcpy(buff, mem);
+  write(fd, buff, strlen(buff));
   write(fd, "\n", 1);
-  state_errors("writing to file");
+  state_errors("writing to the file");
   sb.sem_op = 1;
   semop(sem, &sb, 1);
-  state_errors("updating semaphore");
+  state_errors("updating the semaphore");
   shmdt(mem);
-  state_errors("detaching shared memory");
+  state_errors("detaching the shared memory");
   return 0;
 }
