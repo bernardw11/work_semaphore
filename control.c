@@ -50,7 +50,7 @@ int main(int argc, char * arvg[]){
     shm = shmget(KEY, SIZE, IPC_CREAT | 0644);
     state_errors("making the shared memory");
     printf("shared memory created\n");
-    //open the text file
+    //opening the text file
     fd = open("telephone.txt", O_CREAT | O_TRUNC | O_RDWR, 0644);
     state_errors("opening the file");
     close(fd);
@@ -58,7 +58,31 @@ int main(int argc, char * arvg[]){
   }
   //removing
   else if (strcmp(flag, "-r") == 0){
+    //getting the semaphore
+    sem = semget(KEY, 1, 0);
+    state_errors("getting the semaphore");
+    printf("trying to get in\n");
+    semop(sem, &sb, 1);
+    //getting the shared memory
+    shm = shmget(KEY, SIZE, 0);
+    state_errors("getting the shared memory");
+    //opening the text file
+    fd = open("telephone.txt", O_RDONLY);
+    state_errors("opening the file");
+    //printing everything
+    printf("The story so far:\n");
+    char buff[SIZE];
+    //THIS MAY SCREW EVERYTHING UP
+    buff[0] = '\0';
+    read(fd, buff, SIZE);
+    if (strlen(buff) != 0) {
+      *(strrchr(buff, '\n') + 1) = '\0';
+    }
+    printf("%s\n", buff);
+    close(fd);
 
+    shmctl(shm, IPC_RMID, 0);
+    state_errors("removing shared memory");
   }
   else if (strcmp(flag, "-v") == 0){
 
