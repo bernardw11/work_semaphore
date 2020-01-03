@@ -45,7 +45,7 @@ int main(int argc, char *argv[]){
     sem = semget(KEY, 1, IPC_CREAT | 0644);
     state_errors("making the semaphore");
     printf("semaphore created\n");
-    semctl(semd, 0, SETVAL, su);
+    semctl(sem, 0, SETVAL, su);
     //creating the shared memory
     shm = shmget(KEY, SIZE, IPC_CREAT | 0644);
     state_errors("making the shared memory");
