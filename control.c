@@ -12,7 +12,7 @@
 //control program! reads in cmd line. creating: -c. removing: -r. viewing: -v
 
 #define KEY 1000000
-#define SIZE 1000000
+#define SIZE 1000
 
 union semun {
   int              val;    /* Value for SETVAL */
